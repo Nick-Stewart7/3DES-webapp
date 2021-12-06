@@ -2,8 +2,8 @@ import os
 import sys
 import random
 
-from flask import Flask, render_template
-from des_one_block import startDES
+from flask import Flask, render_template, request
+from des_one_block import startEncryption
 
 #setup flask
 app = Flask(__name__)
@@ -20,9 +20,11 @@ def start_Page():
         print(e)
         return render_template("index.html")
 
-@app.route('/encrypt/')
+@app.route('/encrypt/', methods=['POST'])
 def encrypt():
-    startDES()
+    
+    enc = startEncryption(request.form['text'], request.form['key'])
+    return "The ciphertext is: {}".format(enc)
 
 #run
 app.run(

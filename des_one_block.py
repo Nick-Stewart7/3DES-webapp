@@ -1,5 +1,5 @@
 import sys
-
+subkeys=[]
 #moves bit to a new place
 def move_bit(sequence, _from, to, in_length, out_length):
     temp = (sequence&(1<<(in_length-_from)))
@@ -163,14 +163,13 @@ def des(block, key):
 
 
 
-def startDES():
+def startEncryption(text, key):
     #runs the algo with sys args
-    key = int(sys.argv[2], base=16)
-    message = int(sys.argv[1], base=16)
+    key = int(key, base=16)
+    message = int(text, base=16)
 
     #generate list of subkeys
     next_key = permute_1(key)
-    subkeys=[]
     for i in range(16):
         next_key=get_subkey(next_key,i)
         subkeys.append(permute_2(next_key))
@@ -192,7 +191,11 @@ def startDES():
     right = next_mess & 4294967295
     ciphertext = inv_init_perm((left)|(right<<32))
     print(f'ciphertext: {ciphertext:016x}')
+    return ciphertext
 
+def startDecrpyt(ciphertext):
+    #WE NEED A WAY TO GET THE SUBKEYS TO THIS ALGORITHM
+    #RIGHT NOW I SET IT TO BE A GLOBAL, IDK IF THIS WILL BITE US LATER
     #initial perm
     next_mess=init_perm(ciphertext)
     #16 rounds decryption
