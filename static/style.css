@@ -1,0 +1,23 @@
+.Encryption{
+    background-color: #2b6777;
+    padding: 20px;
+}
+.enc, .dec{
+    width:50%;
+    padding: 12px;
+    border: 1px solid black;
+    border-radius: 4px;
+    resize: vertical;
+}
+.Decryption{
+    background-color: #52ab98;
+    padding: 20px;
+}
+body{
+    background-color: #c8d8e4;
+    text-align: center;
+}
+input[type=submit]{
+    background-color:black;
+    color: white;
+}
