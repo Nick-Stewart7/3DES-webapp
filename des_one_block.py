@@ -166,7 +166,6 @@ def startEncryption(text, key):
     #runs the algo with sys args
     key = int(key, base=16)
     message = int(text, base=16)
-    print(message)
     #generate list of subkeys
     subkeys=[]
     next_key = permute_1(key)

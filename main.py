@@ -30,7 +30,7 @@ def encrypt():
         element = element[2:]
         messageHex += element
     enc = startEncryption(messageHex, key)
-    return "The ciphertext is: " + hex(enc)
+    return render_template('index.html', ciphertext = hex(enc))
 
 @app.route('/decrypt/', methods=['POST'])
 def decrypt():
@@ -39,7 +39,7 @@ def decrypt():
     dec = startDecrpyt(message, key)
     dec = hex(dec)
     dec = dec[2:]
-    return "the plaintext is: " + bytearray.fromhex(dec).decode()
+    return render_template('index.html', cleartext = bytearray.fromhex(dec).decode())
 
 #run
 app.run(
