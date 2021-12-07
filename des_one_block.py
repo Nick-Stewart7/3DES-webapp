@@ -1,5 +1,4 @@
 import sys
-subkeys=[]
 #moves bit to a new place
 def move_bit(sequence, _from, to, in_length, out_length):
     temp = (sequence&(1<<(in_length-_from)))
@@ -167,8 +166,9 @@ def startEncryption(text, key):
     #runs the algo with sys args
     key = int(key, base=16)
     message = int(text, base=16)
-
+    print(message)
     #generate list of subkeys
+    subkeys=[]
     next_key = permute_1(key)
     for i in range(16):
         next_key=get_subkey(next_key,i)
@@ -193,9 +193,20 @@ def startEncryption(text, key):
     print(f'ciphertext: {ciphertext:016x}')
     return ciphertext
 
-def startDecrpyt(ciphertext):
+def startDecrpyt(text, key):
     #WE NEED A WAY TO GET THE SUBKEYS TO THIS ALGORITHM
     #RIGHT NOW I SET IT TO BE A GLOBAL, IDK IF THIS WILL BITE US LATER
+    ciphertext = int(text, base=16)
+    key = int(key, base=16)
+    #get keys back
+    subkeys=[]
+    next_key = permute_1(key)
+    for i in range(16):
+        next_key=get_subkey(next_key,i)
+        subkeys.append(permute_2(next_key))
+
+    print(f'ciphertext: {ciphertext:016x}, key: {key:016x}')
+
     #initial perm
     next_mess=init_perm(ciphertext)
     #16 rounds decryption
@@ -210,3 +221,4 @@ def startDecrpyt(ciphertext):
     right = next_mess & 4294967295
     unciphertext = inv_init_perm((left)|(right<<32))
     print(f'unciphertext: {unciphertext:016x}')
+    return unciphertext

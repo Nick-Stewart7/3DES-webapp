@@ -3,7 +3,7 @@ import sys
 import random
 
 from flask import Flask, render_template, request
-from des_one_block import startEncryption
+from des_one_block import startDecrpyt, startEncryption
 
 #setup flask
 app = Flask(__name__)
@@ -22,9 +22,24 @@ def start_Page():
 
 @app.route('/encrypt/', methods=['POST'])
 def encrypt():
-    
-    enc = startEncryption(request.form['text'], request.form['key'])
-    return "The ciphertext is: {}".format(enc)
+    message = request.form['enctext']
+    messageHex = ''
+    key = request.form['key']
+    for character in message:
+        element = hex((ord(character)))
+        element = element[2:]
+        messageHex += element
+    enc = startEncryption(messageHex, key)
+    return "The ciphertext is: " + hex(enc)
+
+@app.route('/decrypt/', methods=['POST'])
+def decrypt():
+    message = request.form['dectext']
+    key = request.form['key']
+    dec = startDecrpyt(message, key)
+    dec = hex(dec)
+    dec = dec[2:]
+    return "the plaintext is: " + bytearray.fromhex(dec).decode()
 
 #run
 app.run(

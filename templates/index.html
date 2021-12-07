@@ -12,7 +12,7 @@
                 Text to be encrypted!
             </h1>
             <form action="/encrypt/" method='post'>
-                <textarea name='text' class="enc"></textarea>
+                <textarea name='enctext' class="enc"></textarea>
                 <br>
                 <label>Enter Key</label>
                 <textarea name='key'></textarea>
@@ -27,8 +27,11 @@
             <h1>
                 Text to be decrypted!
             </h1>
-                <form>
-                    <textarea class="dec"></textarea>
+                <form action='/decrypt/' method='post'>
+                    <textarea name = 'dectext' class="dec"></textarea>
+                    <br>
+                    <label>Enter Key</label>
+                    <textarea name='key'></textarea>
                     <br>
                     <input type="submit">
                 </form>
