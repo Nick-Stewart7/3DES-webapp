@@ -12,7 +12,7 @@
                 Text to be encrypted!
             </h1>
             <form action="/encrypt/" method='post'>
-                <textarea name='text' class="enc"></textarea>
+                <textarea name='enctext' class="enc"></textarea>
                 <br>
                 <label>Enter Key</label>
                 <textarea name='key'></textarea>
@@ -20,25 +20,26 @@
                 <input type="submit">
             </form>
             <h2> Result from encryption </h2>
-            <p> result would be here </p>
-            <button> Copy! </button>
+            <p id="ciphertext"> {{ ciphertext }} </p>
         </section>
         <section class="Decryption">
             <h1>
                 Text to be decrypted!
             </h1>
-                <form>
-                    <textarea class="dec"></textarea>
+                <form action='/decrypt/' method='post'>
+                    <textarea name="dectext" class="dec"></textarea>
+                    <br>
+                    <label>Enter Key</label>
+                    <textarea name='key'></textarea>
                     <br>
                     <input type="submit">
                 </form>
             <h2> Result from decryption </h2>
-            <p> result is here </p>
-            <button> Copy! </button>
+            <p id="cleartext"> {{ cleartext }} </p>
         </section>
         <footer>
             <h3> produced by: </h3>
-            <p> Nicholas Stewart </p>
+            <p> Nicholas Stewart, Yi-Hsuan Hsu, Mitchell Mecca </p>
         </footer>
     </body>
 </html>
