@@ -154,36 +154,13 @@ def des(block, key):
     #expands xor with key sbox the perm
     expanded = expand(right)
     en_right = perm(sbox(expanded^key))
-
     #switches left and right
     en = (left^en_right)|(right<<32)
     return en
 
-def startEncryption(text, key):
-    #runs the algo with sys args
-    key = int(key, base=16)
-    #message = int(text, base=16)
-    blockNum = -(len(text) // -16)
-    print("How many blocks?", blockNum)
-    #print("text in", text[-16:])
-    # -16 * i + 1: -16 * i
-    #needs special case for 0
-    #print("leftover", text[-32:-16])
-    messageBlocks = []
-    for i in range (0,blockNum):
-        upper = -16 * (i+1)
-        lower = -16 * i
-        if lower == 0:
-            block = text[upper:]
-            message = int(block, base=16)
-        else:
-            print("upper", upper)
-            print("lower", lower)
-            block = text[-16 * (i+1):-16 * i]
-            message = int(block, base=16)
-        messageBlocks.append(message)
-    messageBlocks.reverse()
-    print("blocks", messageBlocks)
+def startEncryption(messageBlocks, key):
+    #convert key
+    key = int(key, base=16) 
     #generate list of subkeys
     subkeys=[]
     next_key = permute_1(key)
@@ -193,7 +170,6 @@ def startEncryption(text, key):
     ciphertext = []
     for message in messageBlocks:
         print(f'plaintext: {message:016x}, key: {key:016x}')
-
         #initial perm
         next_mess=init_perm(message)
         #16 rounds encryption
@@ -203,42 +179,16 @@ def startEncryption(text, key):
             print(f'{i:2} {next_mess:016x} × {subkeys[i]:012x} => {inter:016x}')
             rounds.append(inter)
             next_mess=inter
-
         #swap left and right and inv initial
         left = (next_mess & (~4294967295))>>32
         right = next_mess & 4294967295
         ciphertext.append(hex(inv_init_perm((left)|(right<<32))))
-    cipher = ''.join(str(int(cipher, base=16)) for cipher in ciphertext)
     print(ciphertext)
-    print(cipher)
-    return cipher
+    return ciphertext
 
-def startDecrpyt(text, key):
-    #print(ciphertext)
+def startDecrpyt(cipherBlocks, key):
+    #convert key
     key = int(key, base=16)
-    cipherText = int(text, base=16)
-    #get keys back
-    blockNum = -(len(text) // -16)
-    print("How many blocks?", blockNum)
-    #print("text in", text[-16:])
-    # -16 * i + 1: -16 * i
-    #needs special case for 0
-    #print("leftover", text[-32:-16])
-    cipherText = str(cipherText)
-    cipherBlocks = []
-    for i in range (0,blockNum):
-        upper = -16 * (i+1)
-        lower = -16 * i
-        if lower == 0:
-            block = cipherText[upper:]
-        else:
-            print("upper", upper)
-            print("lower", lower)
-            block = cipherText[-16 * (i+1):-16 * i]
-        cipherBlocks.append(block)
-    cipherBlocks.reverse()
-    cipherBlocks = list(map(lambda x: int(x), cipherBlocks))
-    print("blocks", cipherBlocks)
     subkeys=[]
     next_key = permute_1(key)
     for i in range(16):
@@ -259,7 +209,6 @@ def startDecrpyt(text, key):
         #swap left and right and inv initial    
         left = (next_mess & (~4294967295))>>32
         right = next_mess & 4294967295
-        unciphertext.append(str(inv_init_perm((left)|(right<<32))))
+        unciphertext.append(hex(inv_init_perm((left)|(right<<32))))
     print(unciphertext)
-    cleartext = ''.join(str(text) for text in unciphertext)
-    return cleartext
+    return unciphertext
