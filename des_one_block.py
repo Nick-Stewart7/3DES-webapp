@@ -1,4 +1,5 @@
 import sys
+#CREATE MAIN TO HOUSE THIS VARIABLE
 subkeys=[]
 #moves bit to a new place
 def move_bit(sequence, _from, to, in_length, out_length):
