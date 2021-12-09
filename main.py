@@ -76,7 +76,7 @@ def decrypt():
     #format to display
     decodetext = ''
     for clear in clearHex: 
-        decodetext += bytearray.fromhex(clear).decode()
+        decodetext += bytearray.fromhex(clear).decode(errors='backslashreplace').replace('\\xda', '<br>')
     return render_template('index.html', cleartext = decodetext)
 
 #run
