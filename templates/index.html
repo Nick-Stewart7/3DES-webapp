@@ -41,11 +41,11 @@
                     <input type="submit">
                 </form>
             <h2> Result from decryption </h2>
-            <p id="cleartext"> {{ cleartext }} </p>
+            <p id="cleartext"> {% autoescape false %} {{ cleartext }} {% endautoescape %} </p>
         </section>
         <footer>
             <h3> produced by: </h3>
-            <p> Nicholas Stewart, Yi-Hsuan Hsu, Mitchell Mecca </p>
+            <p> Nicholas Stewart, Yi-Hsuan Hsu, Mitchell Mecca, Yintao Li </p>
         </footer>
     </body>
 </html>
