@@ -58,8 +58,11 @@ def encrypt():
         messageBlocks = cipherBlocks
     #form to display
     display = ''
-    for cipher in enc:
-        display += cipher
+    try:
+        for cipher in enc:
+            display += cipher
+    except:
+        display = 'Error: Please enter at least one key into the keyspace.'
     return render_template('index.html', ciphertext = display)
 
 @app.route('/decrypt/', methods=['POST'])
@@ -97,8 +100,11 @@ def decrypt():
         clearHex = list(map(lambda x: x[2:], dec))
     #format to display
     decodetext = ''
-    for clear in clearHex: 
-        decodetext += bytearray.fromhex(clear).decode(errors='backslashreplace').replace('\\xda', '<br>')
+    try:
+        for clear in clearHex: 
+            decodetext += bytearray.fromhex(clear).decode(errors='backslashreplace').replace('\\xda', '<br>')
+    except:
+        decodetext = 'Error: Please enter at least one key into the keyspace.'
     return render_template('index.html', cleartext = decodetext)
 
 #run
