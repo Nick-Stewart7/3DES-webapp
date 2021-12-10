@@ -59,6 +59,7 @@ def encrypt():
     #form to display
     display = ''
     for cipher in enc:
+        cipher = cipher + '\n'
         display += cipher
     return render_template('index.html', ciphertext = display)
 
@@ -76,6 +77,7 @@ def decrypt():
     if key3 != '':
         keyList.append(key3)
     #format message to be feed into the decrypt
+    message.strip('\n')
     cipherBlocks = message.split("0x")
     cipherBlocks.remove('')
     cipherBlocks = list(map(lambda x: int(x, base=16), cipherBlocks))
